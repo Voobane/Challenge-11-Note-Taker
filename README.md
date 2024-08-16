@@ -1,6 +1,6 @@
 Github Repo link: https://github.com/Voobane/Challenge-11-Note-Taker
 
-Github Hosted link: https://voobane.github.io/Challenge-11-Note-Taker/
+Hosted link: #####################################
 
 
 # 11 Express.js: Note Taker
