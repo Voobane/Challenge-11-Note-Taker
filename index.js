@@ -13,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
+
+
 // HTML Routes
 
 // GET /notes should return the notes.html file.
@@ -24,6 +26,8 @@ app.get('/notes', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+
 
 // API Routes
 
