@@ -1,0 +1,12 @@
+{
+  "name": "challenge-11-note-taker",
+  "version": "1.0.0",
+  "description": "Github Repo link: https://github.com/Voobane/Challenge-11-Note-Taker",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
