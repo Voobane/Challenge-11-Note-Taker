@@ -53,16 +53,23 @@ app.post('/api/notes', (req, res) => {
 
   fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
     if (err) {
-      console.error(err);
+      console.error('Failed to read notes data', err);
       return res.status(500).json({ error: 'Failed to read notes data' });
     }
 
-    const notes = JSON.parse(data);
+    let notes;
+    try {
+      notes = JSON.parse(data);
+    } catch (parseErr) {
+      console.error('Failed to parse notes data', parseErr);
+      return res.status(500).json({ error: 'Failed to parse notes data' });
+    }
+
     notes.push(newNote);
 
     fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes, null, 2), (err) => {
       if (err) {
-        console.error(err);
+        console.error('Failed to save note', err);
         return res.status(500).json({ error: 'Failed to save note' });
       }
 
@@ -70,6 +77,7 @@ app.post('/api/notes', (req, res) => {
     });
   });
 });
+
 
 // Start the server
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
