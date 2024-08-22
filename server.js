@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
+const uniqid = require("uniqid");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -46,9 +46,9 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
   const { title, text } = req.body;
   const newNote = {
-    id: uuidv4(),
     title,
     text,
+    id: uniqid(),
   };
 
   fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
