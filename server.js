@@ -13,8 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
-
-
 // HTML Routes
 
 // GET /notes should return the notes.html file.
@@ -26,8 +24,6 @@ app.get('/notes', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-
 
 // API Routes
 
@@ -77,7 +73,6 @@ app.post('/api/notes', (req, res) => {
     });
   });
 });
-
 
 // Start the server
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
