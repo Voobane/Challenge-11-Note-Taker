@@ -13,21 +13,21 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static("Develop/public"));
+app.use(express.static("public"));
 
-// Get route which sends back the index.html page
-app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "Develop/public/index.html"))
-);
+// GET /notes should return the notes.html file.
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'notes.html'));
+});
 
-// Get route which sends back the notes.html page
-app.get("/notes", (req, res) =>
-  res.sendFile(path.join(__dirname, "Develop/public/notes.html"))
-);
+// GET * should return the index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Get route -> which reads the db.json file and sends back the parsed JSON data
 app.get("/api/notes", function (req, res) {
-  fs.readFile("Develop/db/db.json", "utf8", (err, data) => {
+  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
     var jsonData = JSON.parse(data);
     console.log(jsonData);
     res.json(jsonData);
