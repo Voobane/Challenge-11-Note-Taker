@@ -61,7 +61,7 @@ app.post('/api/notes', (req, res) => {
       return res.status(500).json({ error: 'Failed to parse notes data' });
     }
 
-    notes.push(newNote);
+    notes.push(newNote);  
 
     fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes, null, 2), (err) => {
       if (err) {
