@@ -24,12 +24,21 @@ app.get('/notes', (req, res) => {
 
 // GET /api/notes should read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
-  fs.readFile(path.join(__dirname, 'public', 'db', 'db.json'), 'utf8', (err, data) => {
+  const dbPath = path.join(__dirname, 'public', 'db', 'db.json');
+  
+  fs.readFile(dbPath, 'utf8', (err, data) => {
     if (err) {
-      console.error(err);
+      console.error('Failed to read notes data:', err);
       return res.status(500).json({ error: 'Failed to read notes data' });
     }
-    res.json(JSON.parse(data));
+
+    try {
+      const notes = JSON.parse(data); // Parse the JSON data
+      res.json(notes); // Return the parsed data
+    } catch (parseErr) {
+      console.error('Failed to parse notes data:', parseErr);
+      return res.status(500).json({ error: 'Failed to parse notes data' });
+    }
   });
 });
 
@@ -46,29 +55,31 @@ app.post('/api/notes', (req, res) => {
     id: uniqid(), // Generate a unique id for the note
   };
 
-  fs.readFile(path.join(__dirname, 'public', 'db', 'db.json'), 'utf8', (err, data) => {
+  const dbPath = path.join(__dirname, 'public', 'db', 'db.json');
+  
+  fs.readFile(dbPath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Failed to read notes data', err);
+      console.error('Failed to read notes data:', err);
       return res.status(500).json({ error: 'Failed to read notes data' });
     }
 
     let notes;
     try {
-      notes = JSON.parse(data);
+      notes = JSON.parse(data); // Parse the existing notes
     } catch (parseErr) {
-      console.error('Failed to parse notes data', parseErr);
+      console.error('Failed to parse notes data:', parseErr);
       return res.status(500).json({ error: 'Failed to parse notes data' });
     }
 
-    notes.push(newNote);
+    notes.push(newNote); // Add the new note
 
-    fs.writeFile(path.join(__dirname, 'public', 'db', 'db.json'), JSON.stringify(notes, null, 2), (err) => {
+    fs.writeFile(dbPath, JSON.stringify(notes, null, 2), (err) => {
       if (err) {
-        console.error('Failed to save note', err);
+        console.error('Failed to save note:', err);
         return res.status(500).json({ error: 'Failed to save note' });
       }
 
-      res.json(newNote);
+      res.json(newNote); // Return the newly added note
     });
   });
 });
