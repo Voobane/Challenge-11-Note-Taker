@@ -47,6 +47,11 @@ app.post('/api/notes', (req, res) => {
     id: uniqid(),
   };
 
+
+// need to fix this next:
+
+
+
   fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error('Failed to read notes data', err);
