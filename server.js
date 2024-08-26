@@ -20,11 +20,6 @@ app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'notes.html'));
 });
 
-// GET * should return the index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 // API Routes
 
 // GET /api/notes should read the db.json file and return all saved notes as JSON.
@@ -41,16 +36,15 @@ app.get('/api/notes', (req, res) => {
 // POST /api/notes should receive a new note, add it to the db.json file, and return the new note to the client.
 app.post('/api/notes', (req, res) => {
   const { title, text } = req.body;
+  if (!title || !text) {
+    return res.status(400).json({ error: 'Note title and text are required' });
+  }
+
   const newNote = {
     title,
     text,
-    id: uniqid(),
+    id: uniqid(), // Generate a unique id for the note
   };
-
-
-// need to fix this next:
-
-
 
   fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
     if (err) {
@@ -77,6 +71,11 @@ app.post('/api/notes', (req, res) => {
       res.json(newNote);
     });
   });
+});
+
+// GET * should return the index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start the server
