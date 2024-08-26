@@ -24,7 +24,7 @@ app.get('/notes', (req, res) => {
 
 // GET /api/notes should read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
-  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
+  fs.readFile(path.join(__dirname, 'public', 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Failed to read notes data' });
@@ -46,7 +46,7 @@ app.post('/api/notes', (req, res) => {
     id: uniqid(), // Generate a unique id for the note
   };
 
-  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', (err, data) => {
+  fs.readFile(path.join(__dirname, 'public', 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error('Failed to read notes data', err);
       return res.status(500).json({ error: 'Failed to read notes data' });
@@ -62,7 +62,7 @@ app.post('/api/notes', (req, res) => {
 
     notes.push(newNote);
 
-    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes, null, 2), (err) => {
+    fs.writeFile(path.join(__dirname, 'public', 'db', 'db.json'), JSON.stringify(notes, null, 2), (err) => {
       if (err) {
         console.error('Failed to save note', err);
         return res.status(500).json({ error: 'Failed to save note' });
