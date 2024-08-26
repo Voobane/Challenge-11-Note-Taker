@@ -1,13 +1,10 @@
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 3001; //beaucase 3001 is not working... becuase i an hotel this weekend???
-
-
 const path = require('path');
 const fs = require('fs');
 const uniqid = require("uniqid");
 
-
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
@@ -64,7 +61,7 @@ app.post('/api/notes', (req, res) => {
       return res.status(500).json({ error: 'Failed to parse notes data' });
     }
 
-    notes.push(newNote);  
+    notes.push(newNote);
 
     fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes, null, 2), (err) => {
       if (err) {
